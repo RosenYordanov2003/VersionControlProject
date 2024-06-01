@@ -43,18 +43,19 @@
             }
         }
         [Route("addContributor")]
+        [HttpPost]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddContributor([FromQuery] Guid repositoryId, [FromQuery] Guid userId)
+        public async Task<IActionResult> AddContributor([FromBody] AddContributorToRepositoryModel model)
         {
-            if (!await CheckIfUserExistsAsync(userId) ||  ! await _repositoryService.CheckIfRepositoryExistsAsync(repositoryId) )
+            if (!await CheckIfUserExistsAsync(model.UserId) ||  ! await _repositoryService.CheckIfRepositoryExistsAsync(model.RepositoryId) )
             {
                 return BadRequest();
             }
             try
             {
-                await _repositoryService.AddContributorToRepository(userId, repositoryId);
+                await _repositoryService.AddContributorToRepository(model.UserId, model.RepositoryId);
                 return Ok();
             }
             catch (Exception)
@@ -63,6 +64,7 @@
             }
         }
         [HttpGet]
+        [Route("all")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetUserRepositories([FromQuery] Guid userId)
