@@ -1,11 +1,12 @@
 ﻿namespace VersionControlProject.Core.Services
 {
     using System;
+    using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
-    using VersionControlProject.Core.Contracts;
-    using VersionControlProject.Core.Models.Repository;
-    using VersionControlProject.Data;
-    using VersionControlProject.Data.Data.Models;
+    using Contracts;
+    using Models.Repository;
+    using Data;
+    using Data.Data.Models;
 
     public class RepositoryService : IRepositoryService
     {
@@ -14,6 +15,22 @@
         public RepositoryService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
+        }
+
+        public async Task AddContributorToRepository(Guid contributorId, Guid repositoryId)
+        {
+            UserRepositoryContributor userRepositoryContributor = new UserRepositoryContributor()
+            {
+                RepositoryId = repositoryId,
+                UserId = contributorId
+            };
+            await _dbContext.UserRepositoryContributors.AddAsync(userRepositoryContributor);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<bool> CheckIfRepositoryExistsAsync(Guid repositoryId)
+        {
+            return await _dbContext.Repositories.AnyAsync(r => r.Id == repositoryId);
         }
 
         public async Task CreateRepositoryAsync(Guid userId, CreateRepositoryModel model)
