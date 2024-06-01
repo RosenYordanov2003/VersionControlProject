@@ -13,7 +13,7 @@
         [Key]
         public int Id { get; set; }
         [ForeignKey(nameof(Commit))]
-        public int CommitId { get; set; }
+        public Guid CommitId { get; set; }
         public Commit Commit { get; set; } = null!;
         [Required]
         public string FileName { get; set; } = null!;

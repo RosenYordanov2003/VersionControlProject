@@ -11,5 +11,10 @@
         {
             public const int MODIFICATION_TYPE_MAX_LENGTH = 10;
         }
+        public static class IssueValidataion
+        {
+            public const int TITLE_MAX_LENGTH = 50;
+            public const int STATUS_MAX_LENGTH = 20;
+        }
     }
 }

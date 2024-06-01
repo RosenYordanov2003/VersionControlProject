@@ -6,8 +6,14 @@
     using static VersionnControlProject.GlobalConstants.EntityValidations.RepositoryValidation;
     public class Repository
     {
+        public Repository()
+        {
+            Commits = new HashSet<Commit>();
+            Contributors = new HashSet<UserRepositoryContributor>();
+            Issues = new HashSet<Issue>();
+        }
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         [MaxLength(NAME_MAX_LENGTH)]
         public string Name { get; set; } = null!;
@@ -17,8 +23,11 @@
         public string Visibility { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
 
-        [ForeignKey(nameof(User))]
-        public Guid Owner { get; set; }
-        public User User { get; set; } = null!;
+        [ForeignKey(nameof(Owner))]
+        public Guid OwnerId { get; set; }
+        public User Owner { get; set; } = null!;
+        public ICollection<Commit> Commits { get; set; }
+        public ICollection<Issue> Issues { get; set; }
+        public ICollection<UserRepositoryContributor> Contributors { get; set; }
     }
 }
