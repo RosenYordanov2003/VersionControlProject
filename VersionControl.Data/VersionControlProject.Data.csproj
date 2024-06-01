@@ -17,4 +17,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VersionnControlProject.GlobalConstants\VersionnControlProject.GlobalConstants.csproj" />
+  </ItemGroup>
+
 </Project>
