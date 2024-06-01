@@ -1,5 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using VersionControlProject.Core.Contracts;
 using VersionControlProject.Core.Services;
 using VersionControlProject.Data;
@@ -26,6 +29,44 @@ builder.Services.AddDefaultIdentity<User>(options =>
           .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
           options.UseSqlServer(connectionString));
+
+
+var keyBytes = Encoding.ASCII.GetBytes(builder.Configuration["JwtConfig:Secret"]);
+
+var tokenValidationParameters = new TokenValidationParameters()
+{
+    ValidateIssuerSigningKey = true,
+    IssuerSigningKey = new SymmetricSecurityKey(keyBytes),
+    ValidateIssuer = false,
+    ValidateAudience = false,
+    ValidateLifetime = true,
+    RequireExpirationTime = false,
+    ValidIssuer = builder.Configuration["JwtConfig:ValidIssuer"],
+    ValidAudience = builder.Configuration["JwtConfig:ValidAudience"],
+};
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddCookie(x =>
+{
+    x.Cookie.Name = "token";
+})
+    .AddJwtBearer(jwt =>
+    {
+        jwt.SaveToken = true;
+        jwt.TokenValidationParameters = tokenValidationParameters;
+        jwt.Events = new JwtBearerEvents()
+        {
+            OnMessageReceived = context =>
+            {
+                context.Token = context.Request.Cookies["token"];
+                return Task.CompletedTask;
+            }
+        };
+    });
 
 
 builder.Services.AddControllersWithViews();

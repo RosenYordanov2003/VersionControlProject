@@ -1,8 +1,8 @@
 ﻿namespace VersionControlProject.Responses
 {
-    public class RegisterResponseModel
+    public class AuthResponseModel
     {
-        public RegisterResponseModel(bool success, params string[] errors)
+        public AuthResponseModel(bool success, params string[] errors)
         {
             Errors = new List<string>();
             Success = success;

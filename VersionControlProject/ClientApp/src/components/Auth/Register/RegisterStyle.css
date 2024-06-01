@@ -10,3 +10,10 @@
     align-items: center;
     margin-top: 0.5rem;
 }
+.input-container label{
+    color: white;
+    margin-bottom: 0.3rem;
+}
+.auth-form button{
+    margin-top: 2rem;
+}

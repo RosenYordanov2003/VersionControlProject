@@ -5,8 +5,9 @@
     using Core.Contracts;
     using Core.Models.Repository;
     using Models;
-    using VersionControlProject.Data.Data.Models;
+    using Microsoft.AspNetCore.Authorization;
 
+    [Authorize]
     [Route("api/repository")]
     [ApiController]
     public class RepositoryController : ControllerBase
@@ -19,7 +20,6 @@
             _useerManager = userManager;
         }
 
-        //[Authorize]
         [Route("create")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -76,6 +76,25 @@
             try
             {
                 var result = await _repositoryService.GetUserRepositoriesAsync(userId);
+                return Ok(result);
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet]
+        [Route("getByName")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public async Task<IActionResult> GetUserRepositoriesByTitle([FromQuery]string title, [FromQuery] Guid userId)
+        {
+            if (!await CheckIfUserExistsAsync(userId))
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var result = await _repositoryService.GetUserRepositoriesByTitleAsync(userId, title);
                 return Ok(result);
             }
             catch (Exception)

@@ -1,13 +1,13 @@
 ﻿namespace VersionControlProject.Core.Services
 {
     using System;
+    using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
     using System.Threading.Tasks;
     using Contracts;
     using Models.Repository;
     using Data;
     using Data.Data.Models;
-    using System.Collections.Generic;
 
     public class RepositoryService : IRepositoryService
     {
@@ -53,6 +53,25 @@
 
             var result = await _dbContext.Repositories
             .Where(r => r.OwnerId == userId || r.Contributors.Any(c => c.UserId == userId))
+            .Select(r => new RepositoryModel
+            {
+                CommitsCount = r.Commits.Count,
+                ContributorsCount = r.Contributors.Count,
+                CreatedOn = r.CreatedOn,
+                Id = r.Id,
+                Name = r.Name
+            })
+            .OrderByDescending(r => r.CreatedOn)
+            .ToListAsync();
+
+            return result;
+        }
+
+        public async Task<IEnumerable<RepositoryModel>> GetUserRepositoriesByTitleAsync(Guid userId, string title)
+        {
+            title = title.ToLower();
+            var result = await _dbContext.Repositories
+            .Where(r => r.OwnerId == userId || r.Contributors.Any(c => c.UserId == userId && c.Repository.Name.ToLower() == title) && r.Name.ToLower() == title)
             .Select(r => new RepositoryModel
             {
                 CommitsCount = r.Commits.Count,
