@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using VersionControlProject.Data;
 using VersionControlProject.Models;
@@ -11,17 +12,33 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<ApplicationDbContext>();
-
+builder.Services.AddDefaultIdentity<User>(options =>
+{
+    options.Password.RequireDigit = false;
+    options.SignIn.RequireConfirmedAccount = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Lockout.MaxFailedAccessAttempts = 5;
+    options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+})
+          .AddRoles<IdentityRole<Guid>>()
+          .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
           options.UseSqlServer(connectionString));
 
-builder.Services.AddAuthentication()
-    .AddIdentityServerJwt();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("VersionControllPolicy", opt =>
+    {
+        opt.AllowAnyOrigin();
+        opt.AllowAnyHeader();
+        opt.AllowAnyMethod();
+    });
+});
 
 var app = builder.Build();
 
@@ -41,8 +58,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
-app.UseIdentityServer();
 app.UseAuthorization();
+app.UseCors("VersionControllPolicy");
 
 app.MapControllerRoute(
     name: "default",

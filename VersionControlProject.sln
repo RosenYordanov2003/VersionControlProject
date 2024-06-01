@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionControlProject", "VersionControlProject\VersionControlProject.csproj", "{D7A6398C-09C2-4713-8F03-926CAB7E3B66}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VersionControlProject", "VersionControlProject\VersionControlProject.csproj", "{D7A6398C-09C2-4713-8F03-926CAB7E3B66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionControlProject.Data", "VersionControl.Data\VersionControlProject.Data.csproj", "{FCF499EE-E334-40D5-BAEF-9944206CBBC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VersionControlProject.Data", "VersionControl.Data\VersionControlProject.Data.csproj", "{FCF499EE-E334-40D5-BAEF-9944206CBBC5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionnControlProject.GlobalConstants", "VersionnControlProject.GlobalConstants\VersionnControlProject.GlobalConstants.csproj", "{BCAFF3A3-B8D9-4868-BE26-6B183BF17140}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VersionnControlProject.GlobalConstants", "VersionnControlProject.GlobalConstants\VersionnControlProject.GlobalConstants.csproj", "{BCAFF3A3-B8D9-4868-BE26-6B183BF17140}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VersionControlProject.Core", "VersionControlProject.Core\VersionControlProject.Core.csproj", "{F7AB99BA-56EF-42BF-8D97-36D62BD92881}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{BCAFF3A3-B8D9-4868-BE26-6B183BF17140}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BCAFF3A3-B8D9-4868-BE26-6B183BF17140}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BCAFF3A3-B8D9-4868-BE26-6B183BF17140}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F7AB99BA-56EF-42BF-8D97-36D62BD92881}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7AB99BA-56EF-42BF-8D97-36D62BD92881}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7AB99BA-56EF-42BF-8D97-36D62BD92881}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7AB99BA-56EF-42BF-8D97-36D62BD92881}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
