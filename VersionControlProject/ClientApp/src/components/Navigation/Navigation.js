@@ -16,6 +16,11 @@ export default function Navigation() {
                             Login
                         </Link>
                     </li>
+                    <li>
+                        <Link to="/My Repositories">
+                            Repositories
+                        </Link>
+                    </li>
                 </ul>
             </nav>
         </header>

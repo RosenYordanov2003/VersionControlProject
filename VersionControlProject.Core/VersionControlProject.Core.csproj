@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\VersionControl.Data\VersionControlProject.Data.csproj" />
+    <ProjectReference Include="..\VersionnControlProject.GlobalConstants\VersionnControlProject.GlobalConstants.csproj" />
+  </ItemGroup>
+
 </Project>

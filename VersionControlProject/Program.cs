@@ -1,6 +1,7 @@
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using VersionControlProject.Core.Contracts;
+using VersionControlProject.Core.Services;
 using VersionControlProject.Data;
 using VersionControlProject.Models;
 
@@ -40,6 +41,8 @@ builder.Services.AddCors(options =>
                    .AllowAnyHeader();
         });
 });
+
+builder.Services.AddScoped<IRepositoryService, RepositoryService>();
 
 
 var app = builder.Build();
