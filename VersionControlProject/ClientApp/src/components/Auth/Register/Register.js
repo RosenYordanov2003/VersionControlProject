@@ -1,21 +1,23 @@
 ﻿import "../Register/RegisterStyle.css"
 import { useState } from "react";
-
+import { register } from "../../../services/authService";
 
 export default function Register() {
-    const [inputObject, setInputObject] = useState({ username: '', email: '', password: '', repeatPassword: '' });
+    const [inputObject, setInputObject] = useState({ userName: '', email: '', password: '', repeatPassword: '' });
 
     function handleOnFormSubmit(e) {
         e.preventDefault();
 
-
+        register(inputObject)
+            .then(res => console.log(res))
+            .catch((error) => console.log(error));
     }
 
     return (
         <form className="auth-form" onSubmit={handleOnFormSubmit}>
             <div className="input-container">
                 <label>Username</label>
-                <input value={inputObject.username} type="text" onChange={(e) => setInputObject({...inputObject, username: e.target.value})}/>
+                <input value={inputObject.userName} type="text" onChange={(e) => setInputObject({...inputObject, userName: e.target.value})}/>
             </div>
             <div className="input-container">
                 <label>Email</label>
@@ -29,6 +31,7 @@ export default function Register() {
                 <label>Repat Password</label>
                 <input value={inputObject.repeatPassword} type="password" onChange={(e) => setInputObject({ ...inputObject, repeatPassword: e.target.value })} />
             </div>
+            <button type="submit">Register</button>
         </form>
     )
 }

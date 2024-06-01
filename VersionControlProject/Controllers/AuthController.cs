@@ -8,6 +8,7 @@
 
     [Route("api/auth")]
     [ApiController]
+    [Produces("application/json")]
     public class AuthController : ControllerBase
     {
         private readonly UserManager<User> _userManager;

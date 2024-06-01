@@ -32,13 +32,15 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("VersionControllPolicy", opt =>
-    {
-        opt.AllowAnyOrigin();
-        opt.AllowAnyHeader();
-        opt.AllowAnyMethod();
-    });
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
 });
+
 
 var app = builder.Build();
 
@@ -59,13 +61,16 @@ app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-app.UseCors("VersionControllPolicy");
+app.UseCors("AllowAll");
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller}/{action=Index}/{id?}");
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=Home}/{action=Index}/{id?}");
+});
 app.MapRazorPages();
 
-app.MapFallbackToFile("index.html"); ;
+//app.MapFallbackToFile("index.html"); ;
 
 app.Run();
