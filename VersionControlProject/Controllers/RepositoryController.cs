@@ -5,6 +5,7 @@
     using Core.Contracts;
     using Core.Models.Repository;
     using Models;
+    using VersionControlProject.Data.Data.Models;
 
     [Route("api/repository")]
     [ApiController]
@@ -55,6 +56,25 @@
             {
                 await _repositoryService.AddContributorToRepository(userId, repositoryId);
                 return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+        }
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetUserRepositories([FromQuery] Guid userId)
+        {
+            if (!await CheckIfUserExistsAsync(userId))
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var result = await _repositoryService.GetUserRepositoriesAsync(userId);
+                return Ok(result);
             }
             catch (Exception)
             {

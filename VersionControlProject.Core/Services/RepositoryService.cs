@@ -7,6 +7,7 @@
     using Models.Repository;
     using Data;
     using Data.Data.Models;
+    using System.Collections.Generic;
 
     public class RepositoryService : IRepositoryService
     {
@@ -45,6 +46,25 @@
 
             await _dbContext.Repositories.AddAsync(repository);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<RepositoryModel>> GetUserRepositoriesAsync(Guid userId)
+        {
+
+            var result = await _dbContext.Repositories
+            .Where(r => r.OwnerId == userId || r.Contributors.Any(c => c.UserId == userId))
+            .Select(r => new RepositoryModel
+            {
+                CommitsCount = r.Commits.Count,
+                ContributorsCount = r.Contributors.Count,
+                CreatedOn = r.CreatedOn,
+                Id = r.Id,
+                Name = r.Name
+            })
+            .OrderByDescending(r => r.CreatedOn)
+            .ToListAsync();
+
+            return result;
         }
     }
 }
