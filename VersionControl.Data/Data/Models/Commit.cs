@@ -6,6 +6,10 @@
 
     public class Commit
     {
+        public Commit()
+        {
+            Modifications = new HashSet<Modification>();
+        }
         [Key]
         public Guid Id { get; set; }
         public DateTime CreatedOn { get; set; }
@@ -17,5 +21,6 @@
         [ForeignKey(nameof(Creator))]
         public Guid CreatorId { get; set; }
         public User Creator { get; set; } = null!;
+        public ICollection<Modification> Modifications { get; set; }
     }
 }

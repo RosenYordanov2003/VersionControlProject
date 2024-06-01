@@ -8,8 +8,9 @@
     {
         public Modification()
         {
-            Modifications = new HashSet<Modification>();
+            FileDifferences = new HashSet<FileDifference>();
         }
+       
         [Key]
         public int Id { get; set; }
         [ForeignKey(nameof(Commit))]
@@ -19,6 +20,6 @@
         public string FileName { get; set; } = null!;
         [MaxLength(MODIFICATION_TYPE_MAX_LENGTH)]
         public string ModificationType { get; set; } = null!;
-        public ICollection<Modification> Modifications { get; set; }
+        public ICollection<FileDifference> FileDifferences { get; set; }
     }
 }

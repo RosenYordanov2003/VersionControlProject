@@ -11,6 +11,7 @@
             Commits = new HashSet<Commit>();
             Contributors = new HashSet<UserRepositoryContributor>();
             Issues = new HashSet<Issue>();
+            PullRequests = new HashSet<PullRequest>();
         }
         [Key]
         public Guid Id { get; set; }
@@ -29,5 +30,6 @@
         public ICollection<Commit> Commits { get; set; }
         public ICollection<Issue> Issues { get; set; }
         public ICollection<UserRepositoryContributor> Contributors { get; set; }
+        public ICollection<PullRequest> PullRequests { get; set; }
     }
 }

@@ -19,8 +19,8 @@
         [MaxLength(STATUS_MAX_LENGTH)]
         public string Status { get; set; } = null!;
         public DateTime CreatedOn { get; set; }
-        public Guid RepositoryId { get; set; }
         [ForeignKey(nameof(Repository))]
+        public Guid RepositoryId { get; set; }
         public Repository Repository { get; set; } = null!;
     }
 }
